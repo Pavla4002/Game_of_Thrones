@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="all-content" id="app">
+    <div class="part1-add-sort-filter-search">
+        <div class="size">
+            <form class="add-form" v-if="statusUser">
+                <div class="piece1">
+                    <label for="firstName">Имя</label>
+                    <input type="text" id="firstName" v-model="firstName">
+                    <label for="lastName">Фамилия</label>
+                    <input type="text" id="lastName" v-model="lastName">
+                    <label for="fullName">Полное имя</label>
+                    <input type="text" id="fullName" v-model="fullName">
+                </div>
+                <div class="piece2">
+                    <label for="family">Семья</label>
+                    <input type="text" id="family" v-model="family">
+                    <label for="title">Прозвище</label>
+                    <input type="text" id="title" v-model="title">
+                    <label for="imageUrl">Адрес (URL) фотографии</label>
+                    <input type="text" id="imageUrl" v-model="imageUrl">
+                </div>
+                <button @click.prevent ="addPersona">Добавить</button>
+            </form>
+        </div>
+
+        <div class="count-search-sort-filter">
+            <div class="count">
+                <span>Количество персонажей - {{info.length}} </span>
+            </div>
+            <div class="search-sort-filter">
+
+                <label for="searchF">Поиск</label>
+                <input type="text" id="searchF" v-model="searchValue">
+
+<!--                Сортировка-->
+                <select  v-model="selectOption">
+                    <option disabled selected value="">Без сортировки</option>
+                    <option v-for="option in sortOption"
+                            :key="option.value"
+                            :value="option.value">
+                        {{option.name}}
+                    </option>
+                </select>
+
+                <select v-model="familyOption">
+                    <option disabled selected value="">Без фильтра</option>
+                    <option v-for="option in arrFamily">
+                        {{option}}
+                    </option>
+                </select>
+
+                </div>
+            </div>
+        </div>
+    <div class="part2-personage-cards">
+        <div class="all-cards">
+            <div class="card" v-for="inf in filterPersonage" v-if="info.length!==0">
+                <div class="main_info">
+                    <div class="block-img">
+                        <img :src="inf.imageUrl" alt="">
+                    </div>
+                    <div class="info">
+                        <ul>
+                            <li>{{inf.firstName}}</li>
+                            <li>{{inf.lastName}}</li>
+                            <li>{{inf.fullName}}</li>
+                            <li>{{inf.family}}</li>
+                        </ul>
+                    </div>
+                    <div class="block-title">
+                        <span>{{inf.title}}</span>
+                    </div>
+                </div>
+                <div class="button-left">
+                    <button class="del" @click="deletePersona(inf)" v-if="statusUser">Удалить</button>
+                </div>
+
+            </div>
+            <div class="zero"  v-else>
+                <span>Персонажей нет</span>
+            </div>
+        </div>
+    </div>
+    <div class="button-authorization-registration">
+        <button class="authorization" @click="openDialogAuto">
+            Авторизация
+        </button>
+        <button class="registration" @click="openDialogReg">
+            Регистрация
+        </button>
+    </div>
+
+        <dialog :open="openReg">
+            <form>
+                <strong>Введите логин:</strong>
+                <input type="text" class="input" placeholder="Введите логин" v-model="loginUser" >
+                <strong>Введите пароль:</strong>
+                <input type="text" class="input" placeholder="Введите пароль" v-model="passwordUser">
+
+                <strong>Выберите возрастную категорию:</strong>
+                <div>
+                    <input type="radio" name="age" id="big" value="Совершеннолетний" v-model="ageUser">
+                    <label for="big">Совершеннолетний</label>
+
+                    <input type="radio" name="age" id="small" value="Несовершеннолетний" v-model="ageUser">
+                    <label for="small">Несовершеннолетний</label>
+                </div>
+
+                <strong class="top-strong" >Выберите Ваши увлечения:</strong>
+                <div>
+                    <input type="checkbox" id="reading" value="Чтение" v-model="interesUser">
+                    <label for="reading">Чтение</label>
+
+                    <input type="checkbox" id="music" value="Музыка" v-model="interesUser">
+                    <label for="music">Музыка</label>
+
+                    <input type="checkbox" id="sport" value="Спорт" v-model="interesUser">
+                    <label for="sport">Спорт</label>
+                </div>
+
+                <button class="btn-form" @click.prevent="registration">Регистрация</button>
+                <button @click.prevent ="openReg = false">Закрыть</button>
+            </form>
+        </dialog>
+
+    <dialog :open="openAuto">
+        <form>
+            <strong>Введите логин:</strong>
+            <input type="text" class="input" placeholder="Введите логин" v-model="loginUser" >
+            <strong>Введите пароль:</strong>
+            <input type="text" class="input" placeholder="Введите пароль" v-model="passwordUser">
+
+
+            <button class="btn-form" @click.prevent="auto">Авторизация</button>
+            <button @click.prevent ="openAuto = false">Закрыть</button>
+        </form>
+    </dialog>
+
+
+</div>
+
+<script src="https://unpkg.com/vue@next"></script>
+<script src ="main.js"></script>
+</body>
+</html>
