@@ -16,6 +16,7 @@ const App = {
                 {value: 'lastName', name: 'По фамилии- возрастание'},
                 {value: 'lastName2', name: 'По фамилии - убывание'},
             ],
+
             selectOption: '',
             searchValue: '',
             familyOption:'',
